@@ -42,9 +42,13 @@
 import tkinter
 from tkinter import *
 from tkinter import messagebox
+val = ""
+A = 0
+operator = ""
+pi = 3.141592653589  
 root = tkinter.Tk()
 root.title("Calculator")
-root.geometry("300x370+300+300")
+root.geometry("300x410+300+300")
 #root.resizable(0,0)
 #root.iconbitmap('/home/kali/SoftwareCode/Python/Complete/forcalc.ico')
 # img = PhotoImage(file='forcalc.png')
@@ -52,15 +56,7 @@ root.geometry("300x370+300+300")
 #photo = PhotoImage(file = "forcalc.png")
 #root.iconphoto(False, photo)
 #messagebox.showinfo(title = "Welcome to Calculator",message="Welcome to Calculator. Before you start using it remember that all the trigonometric functions give value in radians and there is now way  provided to change it into degrees in this application. ",)                                                         
-val = ""
-A = 0
-operator = ""
-pi = 3.141592653589  
-#           colours 
-bule = "#05ACF5"
-white = "#ffffff"
-grey = "#696969"
-#           colours 
+
 
 #  Adding menu
 def about():
@@ -124,27 +120,27 @@ frm5.pack(expand = True, fill = "both",)
 #-----------------fun for button 1----------------
 def buttonFor_1_isClicked():
     global val 
-    val = val + "1"
+    val += "1"
     data.set(val)
 #-----------------fun for button 2----------------
 def buttonFor_2_isClicked():
     global val 
-    val = val + "2"
+    val += "2"
     data.set(val)
 #-----------------fun for button 3----------------
 def buttonFor_3_isClicked():
     global val 
-    val = val + "3"
+    val += "3"
     data.set(val)
 #-----------------fun for button 4----------------
 def buttonFor_4_isClicked():
     global val 
-    val = val + "4"
+    val += "4"
     data.set(val)
 #-----------------fun for button 5----------------
 def buttonFor_5_isClicked():
     global val 
-    val = val + "5"
+    val += "5"
     data.set(val)
 #-----------------fun for button 6----------------
 def buttonFor_6_isClicked():
@@ -275,9 +271,10 @@ def buttonFor_plus_isClicked():
     global A
     global operator
     global val
-    A = float(val)
+    A = list(map(float, val.split("+")))
     operator = "+"
     val = val + "+"
+    A= str(A)
     data.set(val)
 
 def buttonFor_sub_isClicked():
@@ -400,105 +397,155 @@ def buttonFor_result_isClicked():
     global operator
     global val
     global pi
-    val2 = val 
-    if operator == "+":
-       B = float((val2.split("+")[1]))
-       C  = A + B
-       data.set(C)
-       val = str(C)
-    elif operator == "-":
-       B = float((val2.split("-")[1]))
-       C  = A - B
-       data.set(C)
-       val = str(C)
-    elif operator == "*":
-       B = float((val2.split("*")[1]))
-       C  = A * B
-       data.set(C)
-       val = str(C)
-    elif operator == "÷":
-       B = float((val2.split("÷")[1]))
-       if B == 0:
-           messagebox.showerror("Error","Division by 0 yeilds an undefined result")
-           A = 0
-           val = ""
-           operator = ""
-           data.set(val)
-       else:
-           C  = A / B
-           data.set(C)
-           val = str(C)
-    elif operator == "√":
-          B =  (val2.split("√")[1])
-          b = float(B)
-          C =  math.sqrt(b)
-          data.set(C)
-          val = str(C)
-    elif operator == "x²":
-          B = float((val2.split("²")[0]))
-          C = B * B
-          data.set(C)
-          val = str(C)
-    elif operator == "!":
-         B=float(val.split("!")[0])
-         C=math.factorial(B)
-         data.set(C)
-         val=str(C) 
-    elif operator == "sin":
-         B=float(val.split("sin(")[1]) 
-         C=math.sin(B)
-         data.set(C)
-         val=str(C) 
-    elif operator == "cos(":
-         B=float(val.split("cos(")[1])
-         C=math.cos(B)
-         data.set(B)
-         val=str(C)
-    elif operator == "tan(":
-         B=float(val.split("tan(")[1])
-         C=math.tan(B)
-         data.set(C)
-         val=str(C)  
-    elif operator == "π":
-         B=float(val.split("π")[0])
-         #B2=float(val.split("π")[1])
-         C=B*math.pi
-         data.set(C)
-         val=str(C)  
-    elif operator == "^":
-         B=float(val.split("^")[0])
-         b=float(val.split("^")[1])
-         C=B**b 
-         data.set(C)
-         val=str(C)  
-    elif operator == "sin-1(":
-         B=float(val.split("sin-1(")[1])
-         C=math.asin(B)
-         data.set(C)
-         val=str(C)  
-    elif operator == "cos-1(":
-         B=float(val.split("cos-1(")[1])
-         C=math.acos(B)
-         data.set(C)
-         val=str(C)  
-    elif operator == "tan-1(":
-         B=float(val.split("tan-1(")[1])
-         C=math.atan(B)
-         data.set(C)
-         val=str(C) 
-    elif operator == "y√x":
-         B = float(val.split("√")[0])
-         b = float(val.split("√")[1])
-         c = (1/float(B))
-         C = b**c
-         data.set(C)
-         val = str(C)
-    elif operator == "x√x":
-         B = float(val.split("√")[1])
-         c = (1/float(B))
-         C = B**c
-         data.set(C)
-         val = str(C)
+    val2 = val
+    while True:
+        if '÷' in val2:
+            i = val2.index('÷')
+            res = int(val2[i-1]) / int(val2[i-1])
+            val2 = val2.split('÷') + str(res)
+            if '*' in val2:
+                i = val2.index('*')
+                res = int(val2[i-1]) * int(val2[i-1])
+                val2 = val2.split('*') + str(res)
+                if '+' in val2:
+                    i = val2.index('+')
+                    res = int(val2[i-1]) + int(val2[i-1])
+                    val2 = val2.split('+') + str(res)
+                    if '-' in val2:
+                        i = val2.index('-')
+                        res = int(val2[i-1]) - int(val2[i-1])
+                        val2 = val2.split('-') + str(res)
+        elif '*' in val2:
+            i = val2.index('*')
+            res = int(val2[i-1]) * int(val2[i-1])
+            val2 = val2.split('*') + str(res)
+            if '+' in val2:
+                i = val2.index('+')
+                res = int(val2[i-1]) + int(val2[i-1])
+                val2 = val2.split('+') + str(res)
+                if '-' in val2:
+                    i = val2.index('-')
+                    res = int(val2[i-1]) - int(val2[i-1])
+                    val2 = val2.split('-') + str(res)   
+        elif '+' in val2:
+            i = val2.index('+')
+            res = int(val2[i-1]) + int(val2[i-1])
+            val2 = val2.split('+') + str(res)
+            print(val2)
+            if '-' in val2:
+                i = val2.index('-')
+                res = int(val2[i-1]) - int(val2[i-1])
+                val2 = val2.split('-') + str(res)
+        elif '-' in val2:
+            i = val2.index('-')
+            res = float(val2[i-1]) - int(val2[i-1])
+            val2 = val2.split('-') + str(res)
+        if not('+') in val2 and not('-') in val2 and not('*') in val2 and not('÷') in val2:
+            break
+# def buttonFor_result_isClicked():
+#     global A
+#     global operator
+#     global val
+#     global pi
+#     val2 = val 
+#     if operator == "+":
+#        B = float((val2.split("+")[1]))
+#        C = A + B
+#        data.set(C)
+#        val = str(C)
+#     elif operator == "-":
+#        B = float((val2.split("-")[1]))
+#        C  = A - B
+#        data.set(C)
+#        val = str(C)
+#     elif operator == "*":
+#        B = float((val2.split("*")[1]))
+#        C  = A * B
+#        data.set(C)
+#        val = str(C)
+#     elif operator == "÷":
+#        B = float((val2.split("÷")[1]))
+#        if B == 0:
+#            messagebox.showerror("Error","Division by 0 yeilds an undefined result")
+#            A = 0
+#            val = ""
+#            operator = ""
+#            data.set(val)
+#        else:
+#            C  = A / B
+#            data.set(C)
+#            val = str(C)
+#     elif operator == "√":
+#           B =  (val2.split("√")[1])
+#           b = float(B)
+#           C =  math.sqrt(b)
+#           data.set(C)
+#           val = str(C)
+#     elif operator == "x²":
+#           B = float((val2.split("²")[0]))
+#           C = B * B
+#           data.set(C)
+#           val = str(C)
+#     elif operator == "!":
+#          B=float(val.split("!")[0])
+#          C=math.factorial(B)
+#          data.set(C)
+#          val=str(C) 
+#     elif operator == "sin":
+#          B=float(val.split("sin(")[1]) 
+#          C=math.sin(B)
+#          data.set(C)
+#          val=str(C) 
+#     elif operator == "cos(":
+#          B=float(val.split("cos(")[1])
+#          C=math.cos(B)
+#          data.set(B)
+#          val=str(C)
+#     elif operator == "tan(":
+#          B=float(val.split("tan(")[1])
+#          C=math.tan(B)
+#          data.set(C)
+#          val=str(C)  
+#     elif operator == "π":
+#          B=float(val.split("π")[0])
+#          #B2=float(val.split("π")[1])
+#          C=B*math.pi
+#          data.set(C)
+#          val=str(C)  
+#     elif operator == "^":
+#          B=float(val.split("^")[0])
+#          b=float(val.split("^")[1])
+#          C=B**b 
+#          data.set(C)
+#          val=str(C)  
+#     elif operator == "sin-1(":
+#          B=float(val.split("sin-1(")[1])
+#          C=math.asin(B)
+#          data.set(C)
+#          val=str(C)  
+#     elif operator == "cos-1(":
+#          B=float(val.split("cos-1(")[1])
+#          C=math.acos(B)
+#          data.set(C)
+#          val=str(C)  
+#     elif operator == "tan-1(":
+#          B=float(val.split("tan-1(")[1])
+#          C=math.atan(B)
+#          data.set(C)
+#          val=str(C) 
+#     elif operator == "y√x":
+#          B = float(val.split("√")[0])
+#          b = float(val.split("√")[1])
+#          c = (1/float(B))
+#          C = b**c
+#          data.set(C)
+#          val = str(C)
+#     elif operator == "x√x":
+#          B = float(val.split("√")[1])
+#          c = (1/float(B))
+#          C = B**c
+#          data.set(C)
+#          val = str(C)
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ fun for = ends $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 #88888888888888888888888888888888888888888888fun for hover starts888888888888888888888888888888888888888888888888
 #def enteredbtn1(event):
